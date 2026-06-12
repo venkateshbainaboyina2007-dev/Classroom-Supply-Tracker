@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import { 
   useGetLowStockSupplies,
   getGetLowStockSuppliesQueryKey,
@@ -123,10 +123,17 @@ function QuickRestockDialog({
 
 export default function LowStock() {
   const [activeDialogs, setActiveDialogs] = useState<Record<number, boolean>>({});
+  const search = useSearch();
+  const params = new URLSearchParams(search);
+  const filterOutOfStock = params.get("filter") === "out-of-stock";
 
-  const { data: supplies, isLoading } = useGetLowStockSupplies({
+  const { data: allSupplies, isLoading } = useGetLowStockSupplies({
     query: { queryKey: getGetLowStockSuppliesQueryKey() }
   });
+
+  const supplies = filterOutOfStock
+    ? allSupplies?.filter((s) => s.quantity === 0)
+    : allSupplies;
 
   const handleDialogChange = (id: number, open: boolean) => {
     setActiveDialogs(prev => ({ ...prev, [id]: open }));
@@ -136,8 +143,14 @@ export default function LowStock() {
     <Layout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">Replenishment Needs</h1>
-          <p className="text-muted-foreground mt-1">Supplies that are at or below their designated reorder threshold.</p>
+          <h1 className="text-3xl font-semibold tracking-tight">
+            {filterOutOfStock ? "Out of Stock" : "Replenishment Needs"}
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            {filterOutOfStock
+              ? "Supplies with zero remaining stock that need immediate restocking."
+              : "Supplies that are at or below their designated reorder threshold."}
+          </p>
         </div>
 
         <Card>

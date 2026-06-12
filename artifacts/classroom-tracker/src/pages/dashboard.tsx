@@ -36,64 +36,75 @@ export default function Dashboard() {
 
         {/* Stats Row */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Supplies</CardTitle>
-              <Archive className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {isLoadingSummary ? (
-                <Skeleton className="h-7 w-20" />
-              ) : (
-                <div className="text-2xl font-bold">{summary?.totalSupplies || 0}</div>
-              )}
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Low Stock</CardTitle>
-              <AlertCircle className="h-4 w-4 text-orange-500" />
-            </CardHeader>
-            <CardContent>
-              {isLoadingSummary ? (
-                <Skeleton className="h-7 w-20" />
-              ) : (
-                <div className="text-2xl font-bold text-orange-600">{summary?.lowStockCount || 0}</div>
-              )}
-            </CardContent>
-          </Card>
+          <Link href="/supplies" className="block group">
+            <Card className="cursor-pointer transition-shadow group-hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Supplies</CardTitle>
+                <Archive className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                {isLoadingSummary ? (
+                  <Skeleton className="h-7 w-20" />
+                ) : (
+                  <div className="text-2xl font-bold">{summary?.totalSupplies || 0}</div>
+                )}
+                <p className="text-xs text-muted-foreground mt-1">View all items</p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
-              <AlertCircle className="h-4 w-4 text-destructive" />
-            </CardHeader>
-            <CardContent>
-              {isLoadingSummary ? (
-                <Skeleton className="h-7 w-20" />
-              ) : (
-                <div className="text-2xl font-bold text-destructive">{summary?.outOfStockCount || 0}</div>
-              )}
-            </CardContent>
-          </Card>
+          <Link href="/low-stock" className="block group">
+            <Card className="cursor-pointer transition-shadow group-hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Low Stock</CardTitle>
+                <AlertCircle className="h-4 w-4 text-orange-500" />
+              </CardHeader>
+              <CardContent>
+                {isLoadingSummary ? (
+                  <Skeleton className="h-7 w-20" />
+                ) : (
+                  <div className="text-2xl font-bold text-orange-600">{summary?.lowStockCount || 0}</div>
+                )}
+                <p className="text-xs text-muted-foreground mt-1">View low stock items</p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Usage This Week</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {isLoadingSummary ? (
-                <Skeleton className="h-7 w-20" />
-              ) : (
-                <div className="text-2xl font-bold">{summary?.totalUsageThisWeek || 0}</div>
-              )}
-              <p className="text-xs text-muted-foreground mt-1">
-                {isLoadingSummary ? <Skeleton className="h-3 w-16" /> : `${summary?.totalUsageToday || 0} today`}
-              </p>
-            </CardContent>
-          </Card>
+          <Link href="/low-stock?filter=out-of-stock" className="block group">
+            <Card className="cursor-pointer transition-shadow group-hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
+                <AlertCircle className="h-4 w-4 text-destructive" />
+              </CardHeader>
+              <CardContent>
+                {isLoadingSummary ? (
+                  <Skeleton className="h-7 w-20" />
+                ) : (
+                  <div className="text-2xl font-bold text-destructive">{summary?.outOfStockCount || 0}</div>
+                )}
+                <p className="text-xs text-muted-foreground mt-1">View out of stock items</p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/usage" className="block group">
+            <Card className="cursor-pointer transition-shadow group-hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Usage This Week</CardTitle>
+                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                {isLoadingSummary ? (
+                  <Skeleton className="h-7 w-20" />
+                ) : (
+                  <div className="text-2xl font-bold">{summary?.totalUsageThisWeek || 0}</div>
+                )}
+                <div className="text-xs text-muted-foreground mt-1">
+                  {isLoadingSummary ? <Skeleton className="h-3 w-16" /> : `${summary?.totalUsageToday || 0} today`}
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">

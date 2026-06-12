@@ -95,6 +95,42 @@ export interface DashboardSummary {
   categoryCounts: CategoryCount[];
 }
 
+export interface Classroom {
+  id: number;
+  name: string;
+  grade: string;
+  teacher: string;
+  roomNumber: string;
+  /** @nullable */
+  notes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ClassroomInput {
+  /** @minLength 1 */
+  name: string;
+  /** @minLength 1 */
+  grade: string;
+  /** @minLength 1 */
+  teacher: string;
+  /** @minLength 1 */
+  roomNumber: string;
+  notes?: string;
+}
+
+export interface ClassroomUpdate {
+  /** @minLength 1 */
+  name?: string;
+  /** @minLength 1 */
+  grade?: string;
+  /** @minLength 1 */
+  teacher?: string;
+  /** @minLength 1 */
+  roomNumber?: string;
+  notes?: string;
+}
+
 export type ActivityItemType = typeof ActivityItemType[keyof typeof ActivityItemType];
 
 

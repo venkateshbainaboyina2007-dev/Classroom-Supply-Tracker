@@ -10,6 +10,7 @@ import UsageLogs from "@/pages/usage";
 import LowStock from "@/pages/low-stock";
 import Stock from "@/pages/stock";
 import OutOfStock from "@/pages/out-of-stock";
+import Classrooms from "@/pages/classrooms";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/low-stock" component={LowStock} />
       <Route path="/stock" component={Stock} />
       <Route path="/out-of-stock" component={OutOfStock} />
+      <Route path="/classrooms" component={Classrooms} />
       <Route component={NotFound} />
     </Switch>
   );

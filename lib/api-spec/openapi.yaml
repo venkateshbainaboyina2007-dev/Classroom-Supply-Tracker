@@ -15,6 +15,8 @@ tags:
     description: Supply usage logging
   - name: dashboard
     description: Dashboard summaries and analytics
+  - name: classrooms
+    description: Classroom management
 paths:
   /healthz:
     get:
@@ -268,6 +270,97 @@ paths:
         "204":
           description: Deleted
 
+  /classrooms:
+    get:
+      operationId: listClassrooms
+      tags: [classrooms]
+      summary: List all classrooms
+      responses:
+        "200":
+          description: List of classrooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Classroom"
+    post:
+      operationId: createClassroom
+      tags: [classrooms]
+      summary: Create a classroom
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClassroomInput"
+      responses:
+        "201":
+          description: Created classroom
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Classroom"
+
+  /classrooms/{id}:
+    get:
+      operationId: getClassroom
+      tags: [classrooms]
+      summary: Get a classroom by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Classroom
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Classroom"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateClassroom
+      tags: [classrooms]
+      summary: Update a classroom
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClassroomUpdate"
+      responses:
+        "200":
+          description: Updated classroom
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Classroom"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteClassroom
+      tags: [classrooms]
+      summary: Delete a classroom
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
   /dashboard/summary:
     get:
       operationId: getDashboardSummary
@@ -457,6 +550,64 @@ components:
           type: string
         count:
           type: integer
+
+    Classroom:
+      type: object
+      required: [id, name, grade, teacher, roomNumber, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        grade:
+          type: string
+        teacher:
+          type: string
+        roomNumber:
+          type: string
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+    ClassroomInput:
+      type: object
+      required: [name, grade, teacher, roomNumber]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        grade:
+          type: string
+          minLength: 1
+        teacher:
+          type: string
+          minLength: 1
+        roomNumber:
+          type: string
+          minLength: 1
+        notes:
+          type: string
+
+    ClassroomUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        grade:
+          type: string
+          minLength: 1
+        teacher:
+          type: string
+          minLength: 1
+        roomNumber:
+          type: string
+          minLength: 1
+        notes:
+          type: string
 
     ActivityItem:
       type: object

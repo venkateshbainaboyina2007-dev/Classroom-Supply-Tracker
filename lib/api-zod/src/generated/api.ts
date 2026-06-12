@@ -251,6 +251,100 @@ export const DeleteUsageLogParams = zod.object({
 
 
 /**
+ * @summary List all classrooms
+ */
+export const ListClassroomsResponseItem = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "grade": zod.string(),
+  "teacher": zod.string(),
+  "roomNumber": zod.string(),
+  "notes": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+export const ListClassroomsResponse = zod.array(ListClassroomsResponseItem)
+
+
+/**
+ * @summary Create a classroom
+ */
+
+
+
+
+
+
+export const CreateClassroomBody = zod.object({
+  "name": zod.string().min(1),
+  "grade": zod.string().min(1),
+  "teacher": zod.string().min(1),
+  "roomNumber": zod.string().min(1),
+  "notes": zod.string().optional()
+})
+
+
+/**
+ * @summary Get a classroom by ID
+ */
+export const GetClassroomParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetClassroomResponse = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "grade": zod.string(),
+  "teacher": zod.string(),
+  "roomNumber": zod.string(),
+  "notes": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+
+
+/**
+ * @summary Update a classroom
+ */
+export const UpdateClassroomParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+
+
+
+
+
+export const UpdateClassroomBody = zod.object({
+  "name": zod.string().min(1).optional(),
+  "grade": zod.string().min(1).optional(),
+  "teacher": zod.string().min(1).optional(),
+  "roomNumber": zod.string().min(1).optional(),
+  "notes": zod.string().optional()
+})
+
+export const UpdateClassroomResponse = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "grade": zod.string(),
+  "teacher": zod.string(),
+  "roomNumber": zod.string(),
+  "notes": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+
+
+/**
+ * @summary Delete a classroom
+ */
+export const DeleteClassroomParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+/**
  * @summary Get dashboard summary stats
  */
 export const GetDashboardSummaryResponse = zod.object({

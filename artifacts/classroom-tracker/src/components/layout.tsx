@@ -7,7 +7,8 @@ import {
   ClipboardList, 
   PackagePlus,
   Layers,
-  PackageX
+  PackageX,
+  School
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGetDashboardSummary, getGetDashboardSummaryQueryKey } from "@workspace/api-client-react";
@@ -21,6 +22,7 @@ export function Layout({ children }: LayoutProps) {
 
   const navItems = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    { name: "Classrooms", href: "/classrooms", icon: School },
     { name: "Supplies", href: "/supplies", icon: Archive },
     { name: "Stock", href: "/stock", icon: Layers },
     { name: "Out of Stock", href: "/out-of-stock", icon: PackageX },

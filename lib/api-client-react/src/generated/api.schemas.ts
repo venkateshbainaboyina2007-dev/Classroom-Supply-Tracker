@@ -65,6 +65,10 @@ export interface UsageLog {
   id: number;
   supplyId: number;
   supplyName: string;
+  /** @nullable */
+  classroomId?: number | null;
+  /** @nullable */
+  classroomName?: string | null;
   quantityUsed: number;
   usedBy: string;
   /** @nullable */
@@ -74,6 +78,7 @@ export interface UsageLog {
 
 export interface UsageLogInput {
   supplyId: number;
+  classroomId?: number;
   /** @minimum 0.01 */
   quantityUsed: number;
   /** @minLength 1 */
@@ -158,6 +163,7 @@ search?: string;
 
 export type ListUsageLogsParams = {
 supplyId?: number;
+classroomId?: number;
 limit?: number;
 };
 

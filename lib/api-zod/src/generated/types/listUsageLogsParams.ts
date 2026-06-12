@@ -8,5 +8,6 @@
 
 export type ListUsageLogsParams = {
 supplyId?: number;
+classroomId?: number;
 limit?: number;
 };

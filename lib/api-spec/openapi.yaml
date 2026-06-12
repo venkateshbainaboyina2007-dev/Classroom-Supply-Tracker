@@ -202,6 +202,11 @@ paths:
           required: false
           schema:
             type: integer
+        - name: classroomId
+          in: query
+          required: false
+          schema:
+            type: integer
         - name: limit
           in: query
           required: false
@@ -499,6 +504,10 @@ components:
           type: integer
         supplyName:
           type: string
+        classroomId:
+          type: ["integer", "null"]
+        classroomName:
+          type: ["string", "null"]
         quantityUsed:
           type: number
         usedBy:
@@ -513,6 +522,8 @@ components:
       required: [supplyId, quantityUsed, usedBy]
       properties:
         supplyId:
+          type: integer
+        classroomId:
           type: integer
         quantityUsed:
           type: number

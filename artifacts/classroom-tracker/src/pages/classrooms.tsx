@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "wouter";
 import {
   useListClassrooms,
   getListClassroomsQueryKey,
@@ -319,24 +320,26 @@ export default function Classrooms() {
             {filtered.map((classroom) => (
               <Card
                 key={classroom.id}
-                className="group hover:shadow-md transition-shadow"
+                className="group hover:shadow-md transition-shadow cursor-pointer"
               >
                 <CardContent className="p-5">
-                  {/* Card header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                        <School className="w-5 h-5 text-primary" />
+                  {/* Card header — clicking name/icon navigates to detail */}
+                  <Link href={`/classrooms/${classroom.id}`} className="block mb-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <School className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-sm leading-tight group-hover:underline">{classroom.name}</h3>
+                          <span className="text-xs text-muted-foreground">Added {new Date(classroom.createdAt).toLocaleDateString()}</span>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-sm leading-tight">{classroom.name}</h3>
-                        <span className="text-xs text-muted-foreground">Added {new Date(classroom.createdAt).toLocaleDateString()}</span>
-                      </div>
+                      <Badge className={`text-xs font-semibold border ${gradeColor(classroom.grade)}`}>
+                        Grade {classroom.grade}
+                      </Badge>
                     </div>
-                    <Badge className={`text-xs font-semibold border ${gradeColor(classroom.grade)}`}>
-                      Grade {classroom.grade}
-                    </Badge>
-                  </div>
+                  </Link>
 
                   {/* Details */}
                   <div className="space-y-2 mb-4">

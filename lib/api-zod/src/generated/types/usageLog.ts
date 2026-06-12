@@ -10,6 +10,10 @@ export interface UsageLog {
   id: number;
   supplyId: number;
   supplyName: string;
+  /** @nullable */
+  classroomId?: number | null;
+  /** @nullable */
+  classroomName?: string | null;
   quantityUsed: number;
   usedBy: string;
   /** @nullable */

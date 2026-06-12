@@ -8,6 +8,7 @@
 
 export interface UsageLogInput {
   supplyId: number;
+  classroomId?: number;
   /** @minimum 0.01 */
   quantityUsed: number;
   /** @minLength 1 */

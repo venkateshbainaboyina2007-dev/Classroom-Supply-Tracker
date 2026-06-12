@@ -193,6 +193,7 @@ export const RestockSupplyResponse = zod.object({
  */
 export const ListUsageLogsQueryParams = zod.object({
   "supplyId": zod.coerce.number().optional(),
+  "classroomId": zod.coerce.number().optional(),
   "limit": zod.coerce.number().optional()
 })
 
@@ -200,6 +201,8 @@ export const ListUsageLogsResponseItem = zod.object({
   "id": zod.number(),
   "supplyId": zod.number(),
   "supplyName": zod.string(),
+  "classroomId": zod.number().nullish(),
+  "classroomName": zod.string().nullish(),
   "quantityUsed": zod.number(),
   "usedBy": zod.string(),
   "notes": zod.string().nullish(),
@@ -218,6 +221,7 @@ export const createUsageLogBodyQuantityUsedMin = 0.01;
 
 export const CreateUsageLogBody = zod.object({
   "supplyId": zod.number(),
+  "classroomId": zod.number().optional(),
   "quantityUsed": zod.number().min(createUsageLogBodyQuantityUsedMin),
   "usedBy": zod.string().min(1),
   "notes": zod.string().optional()
@@ -235,6 +239,8 @@ export const GetUsageLogResponse = zod.object({
   "id": zod.number(),
   "supplyId": zod.number(),
   "supplyName": zod.string(),
+  "classroomId": zod.number().nullish(),
+  "classroomName": zod.string().nullish(),
   "quantityUsed": zod.number(),
   "usedBy": zod.string(),
   "notes": zod.string().nullish(),

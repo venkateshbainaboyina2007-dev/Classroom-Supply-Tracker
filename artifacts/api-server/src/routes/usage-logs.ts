@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { eq, desc } from "drizzle-orm";
-import { db, usageLogsTable, suppliesTable } from "@workspace/db";
+import { eq, desc, and } from "drizzle-orm";
+import { db, usageLogsTable, suppliesTable, classroomsTable } from "@workspace/db";
 import {
   CreateUsageLogBody,
   ListUsageLogsQueryParams,
@@ -14,17 +14,24 @@ router.get("/", async (req, res) => {
   try {
     const query = ListUsageLogsQueryParams.safeParse({
       supplyId: req.query.supplyId ? Number(req.query.supplyId) : undefined,
+      classroomId: req.query.classroomId ? Number(req.query.classroomId) : undefined,
       limit: req.query.limit ? Number(req.query.limit) : undefined,
     });
     if (!query.success) return res.status(400).json({ error: "Invalid query params" });
 
-    const { supplyId, limit } = query.data;
+    const { supplyId, classroomId, limit } = query.data;
+
+    const conditions = [];
+    if (supplyId) conditions.push(eq(usageLogsTable.supplyId, supplyId));
+    if (classroomId) conditions.push(eq(usageLogsTable.classroomId, classroomId));
 
     let q = db
       .select({
         id: usageLogsTable.id,
         supplyId: usageLogsTable.supplyId,
         supplyName: suppliesTable.name,
+        classroomId: usageLogsTable.classroomId,
+        classroomName: classroomsTable.name,
         quantityUsed: usageLogsTable.quantityUsed,
         usedBy: usageLogsTable.usedBy,
         notes: usageLogsTable.notes,
@@ -32,11 +39,12 @@ router.get("/", async (req, res) => {
       })
       .from(usageLogsTable)
       .innerJoin(suppliesTable, eq(usageLogsTable.supplyId, suppliesTable.id))
+      .leftJoin(classroomsTable, eq(usageLogsTable.classroomId, classroomsTable.id))
       .orderBy(desc(usageLogsTable.usedAt))
       .$dynamic();
 
-    if (supplyId) {
-      q = q.where(eq(usageLogsTable.supplyId, supplyId));
+    if (conditions.length > 0) {
+      q = q.where(conditions.length === 1 ? conditions[0] : and(...conditions));
     }
     if (limit) {
       q = q.limit(limit);
@@ -79,10 +87,13 @@ router.post("/", async (req, res) => {
       .set({ quantity: String(newQuantity), updatedAt: new Date() })
       .where(eq(suppliesTable.id, body.data.supplyId));
 
+    const classroomId = body.data.classroomId ?? null;
+
     const [log] = await db
       .insert(usageLogsTable)
       .values({
         supplyId: body.data.supplyId,
+        classroomId,
         quantityUsed: String(body.data.quantityUsed),
         usedBy: body.data.usedBy,
         notes: body.data.notes ?? null,
@@ -90,10 +101,21 @@ router.post("/", async (req, res) => {
       })
       .returning();
 
+    let classroomName: string | null = null;
+    if (classroomId) {
+      const [cls] = await db
+        .select({ name: classroomsTable.name })
+        .from(classroomsTable)
+        .where(eq(classroomsTable.id, classroomId));
+      classroomName = cls?.name ?? null;
+    }
+
     return res.status(201).json({
       id: log.id,
       supplyId: log.supplyId,
       supplyName: supply.name,
+      classroomId: log.classroomId,
+      classroomName,
       quantityUsed: Number(log.quantityUsed),
       usedBy: log.usedBy,
       notes: log.notes,
@@ -115,6 +137,8 @@ router.get("/:id", async (req, res) => {
         id: usageLogsTable.id,
         supplyId: usageLogsTable.supplyId,
         supplyName: suppliesTable.name,
+        classroomId: usageLogsTable.classroomId,
+        classroomName: classroomsTable.name,
         quantityUsed: usageLogsTable.quantityUsed,
         usedBy: usageLogsTable.usedBy,
         notes: usageLogsTable.notes,
@@ -122,6 +146,7 @@ router.get("/:id", async (req, res) => {
       })
       .from(usageLogsTable)
       .innerJoin(suppliesTable, eq(usageLogsTable.supplyId, suppliesTable.id))
+      .leftJoin(classroomsTable, eq(usageLogsTable.classroomId, classroomsTable.id))
       .where(eq(usageLogsTable.id, params.data.id));
 
     if (!row) return res.status(404).json({ error: "Usage log not found" });

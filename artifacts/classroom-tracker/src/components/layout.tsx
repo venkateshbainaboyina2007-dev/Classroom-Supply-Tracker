@@ -5,8 +5,9 @@ import {
   Archive, 
   AlertTriangle, 
   ClipboardList, 
-  Settings,
-  PackagePlus
+  PackagePlus,
+  Layers,
+  PackageX
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGetDashboardSummary, getGetDashboardSummaryQueryKey } from "@workspace/api-client-react";
@@ -21,6 +22,8 @@ export function Layout({ children }: LayoutProps) {
   const navItems = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
     { name: "Supplies", href: "/supplies", icon: Archive },
+    { name: "Stock", href: "/stock", icon: Layers },
+    { name: "Out of Stock", href: "/out-of-stock", icon: PackageX },
     { name: "Low Stock", href: "/low-stock", icon: AlertTriangle },
     { name: "Usage Log", href: "/usage", icon: ClipboardList },
   ];

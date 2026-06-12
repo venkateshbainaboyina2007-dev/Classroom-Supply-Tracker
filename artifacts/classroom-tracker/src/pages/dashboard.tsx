@@ -36,7 +36,7 @@ export default function Dashboard() {
 
         {/* Stats Row */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Link href="/supplies" className="block group">
+          <Link href="/stock" className="block group">
             <Card className="cursor-pointer transition-shadow group-hover:shadow-md">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Supplies</CardTitle>
@@ -70,7 +70,7 @@ export default function Dashboard() {
             </Card>
           </Link>
 
-          <Link href="/low-stock?filter=out-of-stock" className="block group">
+          <Link href="/out-of-stock" className="block group">
             <Card className="cursor-pointer transition-shadow group-hover:shadow-md">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>

@@ -8,6 +8,8 @@ import Supplies from "@/pages/supplies";
 import SupplyDetail from "@/pages/supply-detail";
 import UsageLogs from "@/pages/usage";
 import LowStock from "@/pages/low-stock";
+import Stock from "@/pages/stock";
+import OutOfStock from "@/pages/out-of-stock";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -20,6 +22,8 @@ function Router() {
       <Route path="/supplies/:id" component={SupplyDetail} />
       <Route path="/usage" component={UsageLogs} />
       <Route path="/low-stock" component={LowStock} />
+      <Route path="/stock" component={Stock} />
+      <Route path="/out-of-stock" component={OutOfStock} />
       <Route component={NotFound} />
     </Switch>
   );

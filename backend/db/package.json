@@ -9,7 +9,8 @@
   },
   "scripts": {
     "push": "drizzle-kit push --config ./drizzle.config.js",
-    "push-force": "drizzle-kit push --force --config ./drizzle.config.js"
+    "push-force": "drizzle-kit push --force --config ./drizzle.config.js",
+    "seed": "tsx src/seed.js"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",

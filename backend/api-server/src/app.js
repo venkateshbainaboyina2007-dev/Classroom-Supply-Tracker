@@ -22,7 +22,12 @@ app.use(pinoHttp({
         },
     },
 }));
-app.use(cors());
+const corsOrigin = process.env.CORS_ORIGIN;
+app.use(cors(
+    corsOrigin
+        ? { origin: corsOrigin, credentials: true }
+        : {}
+));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

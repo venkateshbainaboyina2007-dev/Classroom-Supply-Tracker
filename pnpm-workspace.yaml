@@ -1,6 +1,8 @@
 packages:
   - 'backend/*'
-  - 'frontend/*'
+  - 'frontend/classroom-tracker'
+  - 'frontend/api-client-react'
+  - 'frontend/api-zod'
   - 'scripts'
 
 minimumReleaseAge: 1440

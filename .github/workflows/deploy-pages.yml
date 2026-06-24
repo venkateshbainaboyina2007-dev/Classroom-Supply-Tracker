@@ -38,6 +38,8 @@ jobs:
         env:
           # Project site is served at /Classroom-Supply-Tracker/
           BASE_PATH: /Classroom-Supply-Tracker/
+          # Point API calls to the deployed backend
+          VITE_API_URL: https://classroom-supply-tracker-api.onrender.com
         run: pnpm --filter @workspace/classroom-tracker build
 
       - name: Upload Pages artifact

@@ -5,6 +5,12 @@ const DEFAULT_JSON_ACCEPT = "application/json, application/problem+json";
 // ---------------------------------------------------------------------------
 let _baseUrl = null;
 let _authTokenGetter = null;
+
+// Auto-configure: on GitHub Pages, direct API calls to the deployed backend
+// This is here (not in main.jsx) to ensure _baseUrl is set in the same module scope
+if (typeof window !== "undefined" && window.location?.hostname?.includes("github.io")) {
+  _baseUrl = "https://classroom-supply-tracker-api.onrender.com";
+}
 /**
  * Set a base URL that is prepended to every relative request URL
  * (i.e. paths that start with `/`).
@@ -284,7 +290,14 @@ export async function customFetch(input, options = {}) {
         }
     }
     const requestInfo = { method, url: resolveUrl(input) };
-    const response = await fetch(input, { ...init, method, headers });
+    // Include credentials (cookies) for cross-origin requests when a base URL is set
+    const fetchOptions = {
+        ...init,
+        method,
+        headers,
+        ...(_baseUrl ? { credentials: "include" } : {}),
+    };
+    const response = await fetch(input, fetchOptions);
     if (!response.ok) {
         const errorData = await parseErrorBody(response, method);
         throw new ApiError(response, errorData, requestInfo);

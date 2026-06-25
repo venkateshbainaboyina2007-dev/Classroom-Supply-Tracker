@@ -1,9 +1,6 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "rootDirectory": "frontend/classroom-tracker",
-  "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @workspace/classroom-tracker build",
+  "buildCommand": "cd ../.. && pnpm install --frozen-lockfile && pnpm --filter @workspace/classroom-tracker build",
   "outputDirectory": "dist/public",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }

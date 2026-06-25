@@ -109,7 +109,7 @@ export function Layout({ children }) {
               <div className="w-8 h-8 rounded bg-primary flex items-center justify-center text-primary-foreground">
                 <PackagePlus className="w-5 h-5"/>
               </div>
-              Classroom
+              Firstcry
             </Link>
           </div>
           

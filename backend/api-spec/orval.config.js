@@ -1,8 +1,8 @@
 import { defineConfig } from "orval";
 import path from "path";
 const root = path.resolve(__dirname, "..", "..");
-const apiClientReactSrc = path.resolve(root, "lib", "api-client-react", "src");
-const apiZodSrc = path.resolve(root, "lib", "api-zod", "src");
+const apiClientReactSrc = path.resolve(root, "frontend", "api-client-react", "src");
+const apiZodSrc = path.resolve(root, "frontend", "api-zod", "src");
 // Our exports make assumptions about the title of the API being "Api" (i.e. generated output is `api.ts`).
 const titleTransformer = (config) => {
     config.info ??= {};
@@ -30,7 +30,7 @@ export default defineConfig({
                     includeHttpResponseReturnType: false,
                 },
                 mutator: {
-                    path: path.resolve(apiClientReactSrc, "custom-fetch.ts"),
+                    path: path.resolve(apiClientReactSrc, "custom-fetch.js"),
                     name: "customFetch",
                 },
             },

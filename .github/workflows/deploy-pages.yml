@@ -40,7 +40,9 @@ jobs:
           BASE_PATH: /Classroom-Supply-Tracker/
           # Point API calls to the deployed backend
           VITE_API_URL: https://classroom-supply-tracker-api.onrender.com
-        run: pnpm --filter @workspace/classroom-tracker build
+        run: |
+          pnpm --filter @workspace/classroom-tracker build
+          cp frontend/classroom-tracker/dist/public/index.html frontend/classroom-tracker/dist/public/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -84,31 +84,7 @@ export default function Login() {
             setIsSubmitting(false);
         }
     };
-    const handleQuickLogin = async (userRole) => {
-        setIsSubmitting(true);
-        const credentials = {
-            teacher: { username: "teacher", password: "teacher123" },
-            admin: { username: "admin", password: "admin123" },
-        }[userRole];
-        try {
-            await login(credentials);
-            toast({
-                title: "Demo Log In Success",
-                description: `Logged in as ${userRole === "admin" ? "Admin" : "Teacher"} demo account.`,
-            });
-            setLocation("/");
-        }
-        catch (err) {
-            toast({
-                title: "Demo Authentication Failed",
-                description: err?.message || "Failed to log in as demo user.",
-                variant: "destructive",
-            });
-        }
-        finally {
-            setIsSubmitting(false);
-        }
-    };
+
     return (<div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-950 via-slate-900 to-black">
       {/* Background Decorative Blobs */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"/>
@@ -242,21 +218,7 @@ export default function Login() {
           </Tabs>
 
 
-          {/* Quick Login / Demo Section */}
-          <CardFooter className="flex flex-col border-t border-slate-800/40 pt-6 pb-6 bg-slate-950/20">
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">
-              <Key className="w-3.5 h-3.5"/>
-              Quick Demo Login
-            </div>
-            <div className="grid grid-cols-2 gap-3 w-full">
-              <Button type="button" variant="outline" onClick={() => handleQuickLogin("teacher")} disabled={isSubmitting} className="border-slate-800 text-slate-300 bg-slate-900/50 hover:bg-slate-800 hover:text-white">
-                Teacher Portal
-              </Button>
-              <Button type="button" variant="outline" onClick={() => handleQuickLogin("admin")} disabled={isSubmitting} className="border-slate-800 text-slate-300 bg-slate-900/50 hover:bg-slate-800 hover:text-white">
-                Admin Portal
-              </Button>
-            </div>
-          </CardFooter>
+
         </Card>
       </motion.div>
     </div>);

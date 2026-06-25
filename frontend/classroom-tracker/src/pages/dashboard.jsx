@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
@@ -152,7 +153,7 @@ function LogUsageDialog({ open, onOpenChange }) {
                       </Select>
                       <FormMessage />
                     </FormItem>)}/>) : (<FormItem>
-                  <FormLabel>Location</FormLabel>
+                  <Label>Location</Label>
                   <Input value="My Classroom" disabled className="bg-slate-100 dark:bg-slate-900"/>
                 </FormItem>)}
 

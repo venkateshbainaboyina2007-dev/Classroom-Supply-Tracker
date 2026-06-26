@@ -1,0 +1,8 @@
+{
+  "buildCommand": "pnpm --filter @workspace/classroom-tracker build",
+  "outputDirectory": "frontend/classroom-tracker/dist/public",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

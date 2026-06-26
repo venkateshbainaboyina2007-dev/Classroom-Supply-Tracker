@@ -1,6 +1,5 @@
 {
-  "framework": "vite",
-  "buildCommand": "pnpm --filter @workspace/classroom-tracker build",
+  "cleanUrls": true,
   "outputDirectory": "dist/public",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }

@@ -6,10 +6,13 @@ const DEFAULT_JSON_ACCEPT = "application/json, application/problem+json";
 let _baseUrl = null;
 let _authTokenGetter = null;
 
-// Auto-configure: on GitHub Pages, direct API calls to the deployed backend
-// This is here (not in main.jsx) to ensure _baseUrl is set in the same module scope
-if (typeof window !== "undefined" && window.location?.hostname?.includes("github.io")) {
-  _baseUrl = "https://classroom-supply-tracker-api.onrender.com";
+// Auto-configure: in production, direct API calls to the deployed backend
+if (typeof window !== "undefined") {
+  if (import.meta.env.VITE_API_URL) {
+    _baseUrl = import.meta.env.VITE_API_URL;
+  } else if (!window.location?.hostname?.includes("localhost") && !window.location?.hostname?.includes("127.0.0.1")) {
+    _baseUrl = "https://classroom-supply-tracker-api.onrender.com";
+  }
 }
 /**
  * Set a base URL that is prepended to every relative request URL

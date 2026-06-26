@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "wouter";
-import { useListClassrooms, getListClassroomsQueryKey, useCreateClassroom, useUpdateClassroom, useDeleteClassroom, } from "@workspace/api-client-react";
+import { useListClassrooms, getListClassroomsQueryKey, useCreateClassroom, useUpdateClassroom, useDeleteClassroom, customFetch } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -226,30 +226,21 @@ export default function Classrooms() {
     const { data: teachers = [] } = useQuery({
         queryKey: ["teachers-list"],
         queryFn: async () => {
-            const res = await fetch("/api/users/teachers");
-            if (!res.ok)
-                throw new Error("Failed to fetch teachers");
-            return res.json();
+            return customFetch("/api/users/teachers");
         },
     });
     const { data: pendingTeachers = [], refetch: refetchPending } = useQuery({
         queryKey: ["pending-teachers-list"],
         queryFn: async () => {
-            const res = await fetch("/api/users/pending");
-            if (!res.ok)
-                throw new Error("Failed to fetch pending teachers");
-            return res.json();
+            return customFetch("/api/users/pending");
         },
         enabled: isAdmin,
     });
     const approveTeacher = useMutation({
         mutationFn: async (userId) => {
-            const res = await fetch(`/api/users/${userId}/approve`, {
+            return customFetch(`/api/users/${userId}/approve`, {
                 method: "POST",
             });
-            if (!res.ok)
-                throw new Error("Failed to approve teacher account.");
-            return res.json();
         },
         onSuccess: () => {
             toast({ title: "Teacher Approved", description: "Teacher account has been successfully approved and assigned." });
@@ -263,11 +254,9 @@ export default function Classrooms() {
     });
     const declineTeacher = useMutation({
         mutationFn: async (userId) => {
-            const res = await fetch(`/api/users/${userId}`, {
+            await customFetch(`/api/users/${userId}`, {
                 method: "DELETE",
             });
-            if (!res.ok)
-                throw new Error("Failed to decline registration.");
         },
         onSuccess: () => {
             toast({ title: "Registration Request Declined", description: "Teacher registration has been declined and removed." });

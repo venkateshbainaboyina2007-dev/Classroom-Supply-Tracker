@@ -13,6 +13,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog";
+import { customFetch } from "@workspace/api-client-react";
+
 export default function Teachers() {
     const { isAdmin } = useAuth();
     const { toast } = useToast();
@@ -21,19 +23,14 @@ export default function Teachers() {
     const { data: teachers = [], isLoading } = useQuery({
         queryKey: ["teachers-list"],
         queryFn: async () => {
-            const res = await fetch("/api/users/teachers");
-            if (!res.ok)
-                throw new Error("Failed to fetch teachers");
-            return res.json();
+            return customFetch("/api/users/teachers");
         },
     });
     const deleteTeacherMutation = useMutation({
         mutationFn: async (userId) => {
-            const res = await fetch(`/api/users/${userId}`, {
+            await customFetch(`/api/users/${userId}`, {
                 method: "DELETE",
             });
-            if (!res.ok)
-                throw new Error("Failed to delete teacher");
         },
         onSuccess: () => {
             toast({ title: "Teacher deleted", description: "Teacher account was successfully removed." });

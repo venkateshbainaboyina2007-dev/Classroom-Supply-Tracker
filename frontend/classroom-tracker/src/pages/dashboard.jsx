@@ -4,7 +4,7 @@ import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useGetDashboardSummary, getGetDashboardSummaryQueryKey, useGetRecentActivity, getGetRecentActivityQueryKey, useListClassrooms, getListClassroomsQueryKey, useListSupplies, getListSuppliesQueryKey, useCreateUsageLog, getListUsageLogsQueryKey, useListRequests, getListRequestsQueryKey, useListClassroomSupplies, getListClassroomSuppliesQueryKey } from "@workspace/api-client-react";
+import { useGetDashboardSummary, getGetDashboardSummaryQueryKey, useGetRecentActivity, getGetRecentActivityQueryKey, useListClassrooms, getListClassroomsQueryKey, useListSupplies, getListSuppliesQueryKey, useCreateUsageLog, getListUsageLogsQueryKey, useListRequests, getListRequestsQueryKey, useListClassroomSupplies, getListClassroomSuppliesQueryKey, customFetch } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -220,10 +220,7 @@ export default function Dashboard() {
     const { data: teachers = [] } = useQuery({
         queryKey: ["teachers-list"],
         queryFn: async () => {
-            const res = await fetch("/api/users/teachers");
-            if (!res.ok)
-                throw new Error("Failed to fetch teachers");
-            return res.json();
+            return customFetch("/api/users/teachers");
         },
         enabled: isAdmin,
     });
